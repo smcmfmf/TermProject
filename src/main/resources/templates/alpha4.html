@@ -89,13 +89,24 @@
 			</button>
 		</form>
 	</div>
-	<form class="consumer" action="/alpha5">
-			<h3>고객 정보</h3>
-				<h2>성함을 입력하세요.</h2><input class="font" type="name" id="name" value="" placeholder="홍길동"><br><br>
-				<h2>전화번호를 입력하세요.</h2><input class="font" type="tel" id="phoneNum" value="" placeholder="010-1234-5678"><br><br>
-				<h2>이메일을 입력하세요.</h2><input class="font" type="email" id="email" value="" placeholder="bmw@email.com"><br><br>
-			<input class="link" type="submit" value="완료" onclick="return text()">
-	</form>
+    <form class="consumer" action="/order/save" method="post">
+        <input type="hidden" name="carModel" th:value="${car}">
+        <input type="hidden" name="carColor" th:value="${color}">
+        <input type="hidden" name="usagePurpose" th:value="${why}">
+        <input type="hidden" name="deliveryDate" th:value="${date}">
+
+        <h3>고객 정보</h3>
+        <h2>성함을 입력하세요.</h2>
+        <input class="font" type="text" name="consumerName" id="name" placeholder="홍길동" required><br><br>
+
+        <h2>전화번호를 입력하세요.</h2>
+        <input class="font" type="tel" name="consumerPhone" id="phoneNum" placeholder="010-1234-5678" required><br><br>
+
+        <h2>이메일을 입력하세요.</h2>
+        <input class="font" type="email" name="consumerEmail" id="email" placeholder="bmw@email.com" required><br><br>
+
+        <input class="link" type="submit" value="완료" onclick="return text()">
+    </form>
 	<script>
 		function text(){
 			let first = document.getElementById('name');

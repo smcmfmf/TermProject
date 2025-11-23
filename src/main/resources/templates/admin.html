@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 페이지</title>
+    <style>
+        body { background-color: #000051; color: white; text-align: center; font-family: 'GmarketSansBold', sans-serif; }
+        table { margin: 20px auto; width: 90%; border-collapse: collapse; background-color: #FFFFE5; color: black; }
+        th, td { border: 1px solid #000; padding: 10px; }
+        th { background-color: #7EB1FF; }
+        a { text-decoration: none; color: blue; }
+        .btn-del { color: red; font-weight: bold; }
+        .btn-home { display: inline-block; margin-top: 20px; padding: 10px 20px; background-color: white; color: #000051; border-radius: 10px; }
+    </style>
+</head>
+<body>
+<h1>관리자 구매 내역 관리</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>모델</th>
+        <th>색상</th>
+        <th>용도</th>
+        <th>인도일</th>
+        <th>고객명</th>
+        <th>연락처</th>
+        <th>이메일</th>
+        <th>관리</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${list}">
+        <td th:text="${item.id}">1</td>
+        <td th:text="${item.carModel}">iX</td>
+        <td th:text="${item.carColor}">White</td>
+        <td th:text="${item.usagePurpose}">개인</td>
+        <td th:text="${item.deliveryDate}">2025-W16</td>
+        <td th:text="${item.consumerName}">홍길동</td>
+        <td th:text="${item.consumerPhone}">010-0000-0000</td>
+        <td th:text="${item.consumerEmail}">test@email.com</td>
+        <td>
+            <a th:href="@{/admin/update/{id}(id=${item.id})}">수정</a> |
+            <a th:href="@{/admin/delete/{id}(id=${item.id})}" class="btn-del" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+    <a href="/" class="btn-home">메인으로</a>
+</body>
+</html>

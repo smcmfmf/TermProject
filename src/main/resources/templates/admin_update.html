@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>구매 정보 수정</title>
+    <style>
+        body { background-color: #000051; color: white; text-align: center; font-family: 'GmarketSansBold', sans-serif; }
+        .container { background-color: #FFFFE5; color: black; padding: 30px; border-radius: 20px; display: inline-block; margin-top: 50px; }
+        input { padding: 5px; margin: 5px; }
+        button { padding: 10px 20px; background-color: #7EB1FF; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>구매 정보 수정</h2>
+    <form action="/admin/update" method="post">
+        <input type="hidden" name="id" th:value="${item.id}">
+
+        <label>차량 모델:</label>
+        <input type="text" name="carModel" th:value="${item.carModel}"><br>
+
+        <label>차량 색상:</label>
+        <input type="text" name="carColor" th:value="${item.carColor}"><br>
+
+        <label>이용 목적:</label>
+        <input type="text" name="usagePurpose" th:value="${item.usagePurpose}"><br>
+
+        <label>인도 날짜:</label>
+        <input type="text" name="deliveryDate" th:value="${item.deliveryDate}"><br>
+
+        <label>고객 이름:</label>
+        <input type="text" name="consumerName" th:value="${item.consumerName}"><br>
+
+        <label>전화 번호:</label>
+        <input type="text" name="consumerPhone" th:value="${item.consumerPhone}"><br>
+
+        <label>이 메 일:</label>
+        <input type="text" name="consumerEmail" th:value="${item.consumerEmail}"><br><br>
+
+        <button type="submit">수정 완료</button>
+        <a href="/admin/list" style="margin-left: 10px; color: red;">취소</a>
+    </form>
+</div>
+</body>
+</html>
