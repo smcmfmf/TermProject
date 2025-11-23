@@ -18,21 +18,25 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/alpha.html", "/alpha1", "/alpha2", "/login",
-                                "/css/**", "/js/**", "/images/**", "/videos/**").permitAll() // 로그인 없이 접속할 수 있는 페이지 
-                        .requestMatchers("/alpha3", "/alpha4", "/alpha5").authenticated() // 로그인 없이 접속할 수 없는 페이지
+                        .requestMatchers("/", "/alpha.html", "/alpha1", "/alpha2", "/login", "/css/**", "/js/**", "/images/**", "/videos/**").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN") // [추가] 관리자 권한 필요
+                        .requestMatchers("/alpha3", "/alpha4", "/alpha5", "/order/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .successHandler((request, response, authentication) -> {
-                            // 로그인 성공 시 /alpha3으로 이동
-                            response.sendRedirect("/alpha3");
+                            // 권한에 따라 리다이렉트 다르게 설정
+                            if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                                response.sendRedirect("/admin/list");
+                            } else {
+                                response.sendRedirect("/alpha3");
+                            }
                         })
                         .permitAll()
                 )
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/index") // 로그아웃 시 메인페이지로 이동
+                        .logoutSuccessUrl("/index")
                         .permitAll()
                 );
 
@@ -41,12 +45,18 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new InMemoryUserDetailsManager(
-                User.withUsername("user")
-                        .password("1234")
-                        .roles("USER")
-                        .build()
-        );
+        var user = User.withUsername("user")
+                .password("1234")
+                .roles("USER")
+                .build();
+
+        // [추가] 관리자 계정 생성
+        var admin = User.withUsername("admin")
+                .password("1234")
+                .roles("ADMIN")
+                .build();
+
+        return new InMemoryUserDetailsManager(user, admin);
     }
 
     @Bean
